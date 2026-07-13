@@ -2,3 +2,4 @@
 work/
 .vercel/
 .vercel-global/
+.env*

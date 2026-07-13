@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/outputs/pablo.html"
+      "destination": "/outputs/pablo"
     },
     {
       "source": "/assets/:path*",
@@ -28,4 +28,3 @@
     }
   ]
 }
-
