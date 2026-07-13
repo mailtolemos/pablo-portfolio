@@ -34,7 +34,7 @@
       font-size: 14px;
       letter-spacing: -.01em;
     }
-    button, input { font: inherit; }
+    button, input, select { font: inherit; }
     button { color: inherit; }
     a { color: inherit; text-decoration: none; }
     .app { min-height: 100vh; display: grid; grid-template-columns: 232px minmax(0, 1fr); }
@@ -99,7 +99,7 @@
     .btn.primary { background: var(--acid); color: #11170c; border-color: var(--acid); font-weight: 700; }
     .btn.primary:hover { box-shadow: 0 8px 30px rgba(201,255,83,.16); }
     .btn.icon-only { width: 39px; height: 39px; padding: 0; justify-content: center; }
-    .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #242b26; border: 1px solid var(--line); color: var(--acid); font: 15px Georgia, serif; }
+    .avatar { width: 38px; height: 38px; padding: 0; border-radius: 50%; display: grid; place-items: center; background: #242b26; border: 1px solid var(--line); color: var(--acid); font: 15px Georgia, serif; cursor: pointer; }
     .mobile-menu { display: none; }
 
     .content { padding: 27px 30px 44px; max-width: 1540px; margin: 0 auto; }
@@ -223,6 +223,54 @@
     .toast.show { transform: translateY(0); opacity: 1; }
     .hidden-balance { filter: blur(9px); user-select: none; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    [hidden] { display: none !important; }
+    .view-item[hidden] { display: none !important; }
+    .section-grid.single { grid-template-columns: 1fr; }
+    .section-grid.single .pulse { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .standalone-card { margin-top: 16px; }
+    .universe-controls { display: grid; grid-template-columns: minmax(220px,1fr) 210px auto; gap: 9px; margin-top: 19px; }
+    .field-control { width: 100%; color: var(--cream); background: rgba(255,255,255,.025); border: 1px solid var(--line); border-radius: 11px; outline: none; padding: 10px 12px; }
+    .field-control:focus { border-color: rgba(201,255,83,.5); box-shadow: 0 0 0 3px rgba(201,255,83,.06); }
+    select.field-control { color-scheme: dark; cursor: pointer; }
+    .universe-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; margin-top: 13px; }
+    .universe-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 22px 20px; border-top: 1px solid var(--line); }
+    .pagination { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
+    .feed-symbol { max-width: 360px; }
+    .feed-symbol strong { display: block; color: var(--cream); font-size: 12px; }
+    .feed-symbol span { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .loading-row { color: var(--muted); text-align: center; padding: 32px !important; }
+    .account-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 16px; margin-top: 18px; }
+    .account-state { padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.02); }
+    .account-state h3 { font: 400 20px Georgia,serif; margin: 8px 0 5px; }
+    .account-state p { color: var(--muted); font-size: 11px; line-height: 1.5; margin: 0 0 15px; }
+    .account-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .wallet-list { display: grid; gap: 8px; }
+    .wallet-row { display: grid; grid-template-columns: 38px minmax(0,1fr) auto; gap: 11px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.02); }
+    .wallet-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; background: var(--acid-soft); color: var(--acid); font: 600 13px Georgia,serif; }
+    .wallet-row strong { display: block; font-size: 12px; }
+    .wallet-row small { display: block; color: var(--muted); margin-top: 3px; font-size: 10px; overflow: hidden; text-overflow: ellipsis; }
+    .empty-state { min-height: 115px; display: grid; place-content: center; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: 13px; padding: 20px; }
+    .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 20px 0 16px; background: rgba(255,255,255,.025); border: 1px solid var(--line); border-radius: 12px; }
+    .auth-tabs button { border: 0; background: transparent; color: var(--muted); border-radius: 8px; padding: 9px; cursor: pointer; }
+    .auth-tabs button.active { background: var(--cream); color: var(--ink); font-weight: 700; }
+    .auth-form { display: grid; gap: 12px; }
+    .form-field { display: grid; gap: 6px; }
+    .form-field label { color: var(--muted); font-size: 11px; }
+    .form-field input { width: 100%; color: var(--cream); background: rgba(255,255,255,.025); border: 1px solid var(--line); border-radius: 11px; outline: none; padding: 11px 12px; }
+    .form-field input:focus { border-color: rgba(201,255,83,.5); }
+    .form-error { min-height: 17px; color: var(--red); font-size: 11px; }
+    .auth-note { color: var(--muted); font-size: 10px; line-height: 1.5; margin-top: 13px; }
+    .alert-form { display: grid; grid-template-columns: minmax(160px,1fr) minmax(130px,.45fr) minmax(130px,.45fr) auto; gap: 9px; margin-top: 18px; }
+    .alert-list { display: grid; gap: 8px; margin-top: 15px; }
+    .alert-row { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 12px; }
+    .settings-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin-top: 18px; }
+    .setting { border: 1px solid var(--line); border-radius: 13px; padding: 15px; display: flex; justify-content: space-between; gap: 15px; align-items: center; }
+    .setting strong { display: block; font-size: 12px; }
+    .setting small { display: block; color: var(--muted); margin-top: 4px; }
+    .switch { width: 40px; height: 22px; position: relative; background: #303832; border: 0; border-radius: 99px; cursor: pointer; flex: 0 0 auto; }
+    .switch::after { content:""; position:absolute; width:16px; height:16px; left:3px; top:3px; border-radius:50%; background:#727a73; transition:.18s; }
+    .switch.on { background: var(--acid); }
+    .switch.on::after { left:21px; background:var(--ink); }
 
     @media (max-width: 1120px) {
       .app { grid-template-columns: 82px minmax(0,1fr); }
@@ -233,11 +281,16 @@
       .nav button.active::after { position: absolute; right: 7px; }
       .sidebar-art img { right: -42px; }
       .overview-grid, .section-grid { grid-template-columns: 1fr; }
+      .section-grid.single .pulse { grid-template-columns: 1fr; }
       .wealth-card { min-height: 330px; }
     }
     @media (max-width: 760px) {
       .app { display: block; }
       .sidebar { display: none; }
+      .sidebar.open { display: flex; position: fixed; inset: 0 auto 0 0; width: min(280px, 86vw); padding: 24px 18px 18px; box-shadow: 30px 0 80px rgba(0,0,0,.65); }
+      .sidebar.open .brand-word, .sidebar.open .nav button span:not(.icon), .sidebar.open .nav-label, .sidebar.open .quote { display: initial; }
+      .sidebar.open .brand { justify-content: flex-start; padding-inline: 8px; }
+      .sidebar.open .nav button { justify-content: flex-start; }
       .topbar { height: 66px; padding: 0 15px; }
       .mobile-menu { display: inline-flex; }
       .search { width: auto; flex: 1; }
@@ -257,6 +310,9 @@
       .news-grid { grid-template-columns: 1fr; }
       .story, .story.hero-story { min-height: 160px; }
       .hero-story h3 { font-size: 23px; }
+      .universe-controls, .account-grid, .settings-grid { grid-template-columns: 1fr; }
+      .alert-form { grid-template-columns: 1fr 1fr; }
+      .feed-symbol { max-width: 210px; }
     }
     @media (max-width: 470px) {
       .search { border: 0; padding-inline: 4px; background: transparent; }
@@ -266,6 +322,8 @@
       .donut-wrap { grid-template-columns: 1fr 1fr; }
       .providers { grid-template-columns: 1fr; }
       .signals { grid-template-columns: 1fr; }
+      .alert-form { grid-template-columns: 1fr; }
+      .universe-footer { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -294,7 +352,7 @@
 
   <main class="main" id="top">
     <header class="topbar">
-      <button class="btn icon-only mobile-menu" aria-label="Open menu">☰</button>
+      <button class="btn icon-only mobile-menu" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
       <label class="search">
         <span class="icon"><svg><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
         <input id="assetSearch" type="search" placeholder="Search assets, feeds, or news…" aria-label="Search assets">
@@ -303,20 +361,20 @@
       <div class="top-actions">
         <span class="status-pill"><i class="live-dot" id="liveDot"></i><span id="liveStatus">Connecting Pyth</span></span>
         <button class="btn icon-only" id="hideBtn" aria-label="Hide balances"><span class="icon"><svg><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg></span></button>
-        <button class="btn primary" id="connectBtn"><span>Connect account</span><b>+</b></button>
-        <div class="avatar">PL</div>
+        <button class="btn primary" id="connectBtn"><span>Connect wallet</span><b>+</b></button>
+        <button class="avatar" id="accountBtn" aria-label="Open account">PL</button>
       </div>
     </header>
 
     <div class="content">
       <section class="hero-head">
-        <div><div class="eyebrow">Private wealth intelligence</div><h1 id="pageTitle">Your whole world, one view.</h1><p class="sub">Crypto, equities and macro — live, connected, accountable.</p></div>
-        <div class="range" aria-label="Chart time range">
+        <div><div class="eyebrow" id="pageEyebrow">Private wealth intelligence</div><h1 id="pageTitle">Your whole world, one view.</h1><p class="sub" id="pageSub">Crypto, equities and macro — live, connected, accountable.</p></div>
+        <div class="range" id="rangeControl" aria-label="Chart time range">
           <button data-range="1D">1D</button><button data-range="1W">1W</button><button class="active" data-range="1M">1M</button><button data-range="3M">3M</button><button data-range="1Y">1Y</button><button data-range="ALL">ALL</button>
         </div>
       </section>
 
-      <section class="overview-grid">
+      <section class="overview-grid view-item" data-groups="Portfolio">
         <article class="card">
           <div class="card-inner">
             <div class="card-head">
@@ -356,7 +414,7 @@
       </section>
 
       <section class="section-grid">
-        <article class="card table-card">
+        <article class="card table-card view-item" data-groups="Portfolio Markets">
           <div class="card-inner" style="padding-bottom:0">
             <div class="card-head"><div><h2>Live watchlist</h2><p class="sub" style="font-size:11px">Pyth prices with oracle confidence</p></div><div class="table-tools"><button class="tiny-btn" id="refreshBtn">↻ Refresh</button><button class="tiny-btn" id="addAssetBtn">+ Asset</button></div></div>
             <div style="overflow-x:auto">
@@ -369,7 +427,7 @@
           <div class="watch-footer"><i class="live-dot" id="tableDot"></i><span id="feedNote">Establishing a secure link to Pyth Hermes…</span></div>
         </article>
 
-        <div class="pulse">
+        <div class="pulse view-item" data-groups="Intelligence">
           <article class="card"><div class="card-inner">
             <div class="card-head"><div><div class="mini-label">Market pulse</div><h2 style="margin-top:5px">Risk appetite</h2></div><span class="eyebrow" id="fearUpdated">Live</span></div>
             <div class="gauge-row"><div class="gauge"><div class="gauge-value"><strong id="fearValue">68</strong><span id="fearLabel">Greed</span></div></div><div class="pulse-copy"><strong id="pulseTitle">Risk-on, with discipline.</strong><p id="pulseCopy">Momentum is constructive. Volatility is contained, but positioning is becoming crowded.</p></div></div>
@@ -385,11 +443,74 @@
         </div>
       </section>
 
-      <section class="card news-card">
+      <section class="card news-card view-item" data-groups="Intelligence">
         <div class="card-inner" style="padding-bottom:0">
           <div class="card-head"><div><h2>Intelligence wire</h2><p class="sub" style="font-size:11px">Finance, startups, economy, crypto and DeFi</p></div><div class="news-tabs" id="newsTabs"><button class="active" data-news="All">All</button><button data-news="Markets">Markets</button><button data-news="Crypto">Crypto</button><button data-news="Startups">Startups</button><button data-news="Macro">Macro</button></div></div>
         </div>
         <div class="news-grid" id="newsGrid"></div>
+      </section>
+
+      <section class="card standalone-card view-item" data-groups="Markets" id="pythUniverse">
+        <div class="card-inner" style="padding-bottom:0">
+          <div class="card-head">
+            <div><div class="mini-label">Complete oracle catalog</div><h2 style="margin-top:5px">Pyth universe</h2><p class="sub" style="font-size:11px">Every feed published by Pyth, searchable in one place.</p></div>
+            <div class="confidence"><i class="live-dot" id="catalogDot"></i><span id="catalogCount">Loading catalog…</span></div>
+          </div>
+          <div class="universe-controls">
+            <input class="field-control" id="feedSearch" type="search" placeholder="Search BTC, gold, EUR, Apple…" aria-label="Search every Pyth feed">
+            <select class="field-control" id="feedClass" aria-label="Filter by asset class"><option value="All">All asset classes</option></select>
+            <button class="btn" id="catalogRefresh">↻ Refresh prices</button>
+          </div>
+          <div class="universe-meta"><span id="feedResultCount">Discovering feeds…</span><span>Visible prices update in one verified batch</span></div>
+          <div style="overflow-x:auto">
+            <table class="asset-table">
+              <thead><tr><th>Feed</th><th>Class</th><th>Price</th><th>Confidence</th><th>Updated</th></tr></thead>
+              <tbody id="universeRows"><tr><td colspan="5" class="loading-row">Opening the Pyth universe…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="universe-footer">
+          <span class="feed" id="universeNote">Catalog and prices provided by Pyth Hermes</span>
+          <div class="pagination"><button class="tiny-btn" id="feedPrev">← Previous</button><span id="feedPage">Page 1</span><button class="tiny-btn" id="feedNext">Next →</button></div>
+        </div>
+      </section>
+
+      <section class="card standalone-card view-item" data-groups="Accounts" id="accountsPanel">
+        <div class="card-inner">
+          <div class="card-head"><div><div class="mini-label">Identity & connections</div><h2 style="margin-top:5px">Your accounts</h2><p class="sub" style="font-size:11px">A private identity plus wallet addresses you explicitly approve.</p></div><button class="btn primary" id="accountPrimaryBtn">Create account</button></div>
+          <div class="account-grid">
+            <div class="account-state" id="accountState"></div>
+            <div>
+              <div class="card-head" style="margin-bottom:10px"><div><strong style="font-size:12px">Connected wallets</strong><div class="feed">Addresses only. Pablo never sees private keys.</div></div><button class="tiny-btn" id="addWalletBtn">+ Wallet</button></div>
+              <div class="wallet-list" id="walletList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card standalone-card view-item" data-groups="Alerts" id="alertsPanel">
+        <div class="card-inner">
+          <div class="card-head"><div><div class="mini-label">Price intelligence</div><h2 style="margin-top:5px">Your alerts</h2><p class="sub" style="font-size:11px">Create device alerts against any Pyth symbol.</p></div><span class="eyebrow">Device</span></div>
+          <form class="alert-form" id="alertForm">
+            <input class="field-control" id="alertSymbol" required placeholder="Symbol, e.g. BTC/USD" aria-label="Alert symbol">
+            <select class="field-control" id="alertDirection" aria-label="Alert direction"><option value="above">Moves above</option><option value="below">Moves below</option></select>
+            <input class="field-control" id="alertTarget" required type="number" min="0" step="any" placeholder="Target price" aria-label="Target price">
+            <button class="btn primary" type="submit">Create alert</button>
+          </form>
+          <div class="alert-list" id="alertList"></div>
+        </div>
+      </section>
+
+      <section class="card standalone-card view-item" data-groups="Settings" id="settingsPanel">
+        <div class="card-inner">
+          <div class="card-head"><div><div class="mini-label">Control room</div><h2 style="margin-top:5px">Settings</h2><p class="sub" style="font-size:11px">Your preferences stay in this browser.</p></div></div>
+          <div class="settings-grid">
+            <div class="setting"><div><strong>Privacy mode</strong><small>Blur balances when Pablo opens</small></div><button class="switch" id="privacySwitch" role="switch" aria-checked="false" aria-label="Privacy mode"></button></div>
+            <div class="setting"><div><strong>Live price refresh</strong><small>Update visible Pyth prices automatically</small></div><button class="switch on" id="refreshSwitch" role="switch" aria-checked="true" aria-label="Live price refresh"></button></div>
+            <div class="setting"><div><strong>Local data</strong><small>Remove accounts, wallets, alerts and preferences</small></div><button class="tiny-btn" id="clearDataBtn">Clear device data</button></div>
+            <div class="setting"><div><strong>Cloud sync</strong><small>Not configured yet — device account only</small></div><span class="eyebrow">Offline</span></div>
+          </div>
+        </div>
       </section>
     </div>
   </main>
@@ -399,17 +520,32 @@
   <div class="modal-box">
     <div class="modal-head"><div><div class="eyebrow">Secure connection</div><h2 id="modalTitle" style="font-size:28px;margin-top:7px">Bring your world together.</h2><p>Choose a source. Pablo never requests seed phrases or private keys.</p></div><button class="close" aria-label="Close">×</button></div>
     <div class="providers">
-      <button class="provider" data-provider="Solana wallet"><strong>◎ Solana wallet</strong><small>Phantom, Backpack, Solflare</small></button>
-      <button class="provider" data-provider="Ethereum wallet"><strong>◇ Ethereum wallet</strong><small>MetaMask, Rabby, Ledger</small></button>
-      <button class="provider" data-provider="Interactive Brokers"><strong>IBKR</strong><small>Equities, ETFs and cash</small></button>
-      <button class="provider" data-provider="Hyperliquid"><strong>Hyperliquid</strong><small>Spot and perpetuals</small></button>
+      <button class="provider" data-provider="solana"><strong>◎ Solana wallet</strong><small>Phantom, Backpack or compatible</small></button>
+      <button class="provider" data-provider="ethereum"><strong>◇ Ethereum wallet</strong><small>MetaMask, Rabby or compatible</small></button>
+      <button class="provider" data-provider="ibkr"><strong>IBKR</strong><small>Requires secure broker authorization</small></button>
+      <button class="provider" data-provider="hyperliquid"><strong>Hyperliquid</strong><small>Connect your Ethereum address</small></button>
     </div>
     <div class="security">Read-only by default · Encrypted connection · Revoke any time · Balances remain on your providers</div>
   </div>
 </div>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="modal-box">
+    <div class="modal-head"><div><div class="eyebrow">Private identity</div><h2 id="authTitle" style="font-size:28px;margin-top:7px">Enter Pablo.</h2><p>Sign in or create an account stored securely on this device.</p></div><button class="close" aria-label="Close">×</button></div>
+    <div class="auth-tabs"><button class="active" type="button" data-auth-mode="signin">Sign in</button><button type="button" data-auth-mode="signup">Create account</button></div>
+    <form class="auth-form" id="authForm">
+      <div class="form-field" id="nameField" hidden><label for="authName">Name</label><input id="authName" autocomplete="name" placeholder="Your name"></div>
+      <div class="form-field"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+      <div class="form-field"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="8" placeholder="At least 8 characters"></div>
+      <div class="form-error" id="authError" role="alert"></div>
+      <button class="btn primary" id="authSubmit" type="submit">Sign in</button>
+    </form>
+    <div class="auth-note">Device account · Password protected with PBKDF2-SHA-256 · No cloud sync yet · Never use a wallet seed phrase here</div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>
+<script type="text/plain" id="legacyScript">
   const assets = [
     { symbol:'BTC', name:'Bitcoin', query:'BTC', price:117840.12, change:2.84, confidence:.018, hue:'#f2c86b' },
     { symbol:'ETH', name:'Ethereum', query:'ETH', price:3574.28, change:1.92, confidence:.024, hue:'#88a9ff' },
@@ -590,5 +726,6 @@
 
   renderAssets(); renderNews(); initPyth(); loadNews(); loadFearGreed();
 </script>
+<script src="pablo.js"></script>
 </body>
 </html>

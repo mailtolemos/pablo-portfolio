@@ -10,6 +10,10 @@
     {
       "source": "/assets/:path*",
       "destination": "/outputs/assets/:path*"
+    },
+    {
+      "source": "/pablo.js",
+      "destination": "/outputs/pablo.js"
     }
   ],
   "headers": [
