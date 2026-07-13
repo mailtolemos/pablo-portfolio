@@ -131,6 +131,8 @@
     .marker { fill: var(--ink); stroke: var(--acid); stroke-width: 2; }
     .chart-tip { position: absolute; right: 7%; top: 18%; background: var(--cream); color: var(--ink); border-radius: 8px; padding: 7px 9px; font-size: 11px; font-weight: 700; box-shadow: 0 10px 28px rgba(0,0,0,.28); }
     .chart-tip::after { content: ""; position: absolute; left: 50%; bottom: -4px; width: 8px; height: 8px; background: var(--cream); transform: rotate(45deg); }
+    .chart-empty { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: var(--muted); font-size: 12px; pointer-events: none; }
+    .chart-wrap.empty .line-main, .chart-wrap.empty .area-main, .chart-wrap.empty .marker, .chart-wrap.empty .chart-tip { opacity: .12; }
 
     .wealth-card { position: relative; min-height: 360px; background: radial-gradient(circle at 73% 15%, rgba(201,255,83,.09), transparent 35%), var(--ink-2); }
     .wealth-card .art { position: absolute; width: 250px; right: -4px; bottom: -66px; opacity: .14; filter: invert(92%) sepia(20%) saturate(470%) hue-rotate(7deg) brightness(104%) contrast(88%); pointer-events: none; }
@@ -170,6 +172,9 @@
     .spark path { fill: none; stroke: currentColor; stroke-width: 1.6; }
     .spark.pos { color: var(--acid); } .spark.neg { color: var(--red); }
     .watch-footer { padding: 12px 22px 18px; color: #646c65; font-size: 10px; display: flex; gap: 7px; align-items: center; }
+    .watch-action { min-width: 64px; text-align: center; }
+    .watch-action .tiny-btn { color: var(--cream); }
+    .watch-action .tiny-btn.added { color: var(--acid); border-color: rgba(201,255,83,.28); }
 
     .pulse { display: grid; gap: 16px; }
     .gauge-row { display: grid; grid-template-columns: 102px 1fr; gap: 18px; align-items: center; margin-top: 21px; }
@@ -355,7 +360,7 @@
       <button class="btn icon-only mobile-menu" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
       <label class="search">
         <span class="icon"><svg><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
-        <input id="assetSearch" type="search" placeholder="Search assets, feeds, or news…" aria-label="Search assets">
+        <input id="assetSearch" type="search" placeholder="Search watchlist or Pyth feeds…" aria-label="Search watchlist and Pyth feeds">
         <kbd style="color:#59615a;background:transparent;border:0;font-size:10px">⌘K</kbd>
       </label>
       <div class="top-actions">
@@ -378,19 +383,20 @@
         <article class="card">
           <div class="card-inner">
             <div class="card-head">
-              <div><div class="mini-label">Total net worth</div><div class="net-value balance">$284,932.40</div><span class="delta">↗ +$8,214.88 · 2.97%</span></div>
-              <div class="confidence"><i class="live-dot ok"></i><span>High confidence</span></div>
+              <div><div class="mini-label" id="portfolioLabel">Synced portfolio</div><div class="net-value balance" id="netWorthValue">$0.00</div><span class="delta" id="netWorthDelta">Connect a wallet to begin</span></div>
+              <div class="confidence"><i class="live-dot" id="portfolioDot"></i><span id="portfolioConfidence">No holdings synced</span></div>
             </div>
-            <div class="chart-wrap" role="img" aria-label="Portfolio value increased over the selected month">
+            <div class="chart-wrap empty" id="portfolioChart" role="img" aria-label="No portfolio history yet">
               <svg viewBox="0 0 760 205" preserveAspectRatio="none">
                 <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9ff53" stop-opacity=".18"/><stop offset="1" stop-color="#c9ff53" stop-opacity="0"/></linearGradient></defs>
                 <path class="grid-line" d="M0 25H760M0 87H760M0 149H760"/>
                 <path id="portfolioArea" class="area-main" d="M0 180 L0 151 C45 146 60 158 101 142 S155 121 190 130 S239 111 279 116 S332 86 369 95 S412 117 448 89 S503 68 540 77 S592 44 631 52 S687 31 760 22 L760 180Z"/>
                 <path id="portfolioLine" class="line-main" d="M0 151 C45 146 60 158 101 142 S155 121 190 130 S239 111 279 116 S332 86 369 95 S412 117 448 89 S503 68 540 77 S592 44 631 52 S687 31 760 22"/>
                 <circle class="marker" cx="760" cy="22" r="4"/>
-                <text class="chart-label" x="0" y="201">JUN 13</text><text class="chart-label" x="245" y="201">JUN 23</text><text class="chart-label" x="505" y="201">JUL 03</text><text class="chart-label" x="721" y="201">TODAY</text>
+                <text class="chart-label" id="chartStart" x="0" y="201">START</text><text class="chart-label" id="chartQuarter" x="245" y="201"></text><text class="chart-label" id="chartMid" x="505" y="201"></text><text class="chart-label" id="chartEnd" x="721" y="201">TODAY</text>
               </svg>
-              <div class="chart-tip balance">$284.9K</div>
+              <div class="chart-tip balance" id="chartTip">$0.00</div>
+              <div class="chart-empty" id="chartEmpty">Portfolio history begins after your first balance sync.</div>
             </div>
           </div>
         </article>
@@ -399,15 +405,15 @@
           <div class="card-inner">
             <div class="card-head"><div><div class="mini-label">Allocation</div><h2 style="margin-top:5px">Your empire</h2></div><button class="tiny-btn" id="rebalanceBtn">Rebalance</button></div>
             <div class="donut-wrap">
-              <div class="donut"><div class="donut-center"><strong>8</strong><span>positions</span></div></div>
+              <div class="donut" id="allocationDonut"><div class="donut-center"><strong id="positionCount">0</strong><span>positions</span></div></div>
               <div class="legend">
-                <div class="legend-row"><i class="swatch" style="background:var(--acid)"></i><small>Crypto</small><b>43%</b></div>
-                <div class="legend-row"><i class="swatch" style="background:var(--blue)"></i><small>Equities</small><b>27%</b></div>
-                <div class="legend-row"><i class="swatch" style="background:var(--amber)"></i><small>DeFi</small><b>16%</b></div>
-                <div class="legend-row"><i class="swatch" style="background:#617c6e"></i><small>Cash</small><b>14%</b></div>
+                <div class="legend-row"><i class="swatch" style="background:var(--acid)"></i><small>Crypto</small><b id="allocationCrypto">0%</b></div>
+                <div class="legend-row"><i class="swatch" style="background:var(--blue)"></i><small>Equities</small><b id="allocationEquities">0%</b></div>
+                <div class="legend-row"><i class="swatch" style="background:var(--amber)"></i><small>DeFi</small><b id="allocationDefi">0%</b></div>
+                <div class="legend-row"><i class="swatch" style="background:#617c6e"></i><small>Cash</small><b id="allocationCash">0%</b></div>
               </div>
             </div>
-            <div class="private-note">Quietly diversified. No single position exceeds your 25% concentration guardrail.</div>
+            <div class="private-note" id="portfolioNote">No sample wealth. Pablo only counts balances that can be verified from your connected sources.</div>
             <img class="art" src="assets/pablo-mugshot-stencil.png" alt="">
           </div>
         </article>
@@ -419,7 +425,7 @@
             <div class="card-head"><div><h2>Live watchlist</h2><p class="sub" style="font-size:11px">Pyth prices with oracle confidence</p></div><div class="table-tools"><button class="tiny-btn" id="refreshBtn">↻ Refresh</button><button class="tiny-btn" id="addAssetBtn">+ Asset</button></div></div>
             <div style="overflow-x:auto">
               <table class="asset-table">
-                <thead><tr><th>Asset</th><th>Price</th><th>24H</th><th>Trend</th><th>Confidence</th></tr></thead>
+                <thead><tr><th>Asset</th><th>Price</th><th>Status</th><th>Session</th><th>Confidence</th><th>Manage</th></tr></thead>
                 <tbody id="assetRows"></tbody>
               </table>
             </div>
@@ -430,15 +436,15 @@
         <div class="pulse view-item" data-groups="Intelligence">
           <article class="card"><div class="card-inner">
             <div class="card-head"><div><div class="mini-label">Market pulse</div><h2 style="margin-top:5px">Risk appetite</h2></div><span class="eyebrow" id="fearUpdated">Live</span></div>
-            <div class="gauge-row"><div class="gauge"><div class="gauge-value"><strong id="fearValue">68</strong><span id="fearLabel">Greed</span></div></div><div class="pulse-copy"><strong id="pulseTitle">Risk-on, with discipline.</strong><p id="pulseCopy">Momentum is constructive. Volatility is contained, but positioning is becoming crowded.</p></div></div>
-            <div class="signals"><div class="signal"><span>VIX</span><strong>14.8 ↓</strong></div><div class="signal"><span>DXY</span><strong>103.2 →</strong></div><div class="signal"><span>10Y</span><strong>4.21% ↑</strong></div></div>
+            <div class="gauge-row"><div class="gauge"><div class="gauge-value"><strong id="fearValue">—</strong><span id="fearLabel">Loading</span></div></div><div class="pulse-copy"><strong id="pulseTitle">Checking risk appetite.</strong><p id="pulseCopy">Live sentiment and macro feeds are loading from their verified sources.</p></div></div>
+            <div class="signals"><div class="signal"><span>VIX</span><strong id="vixSignal">—</strong></div><div class="signal"><span>DXY</span><strong id="dxySignal">—</strong></div><div class="signal"><span>10Y</span><strong id="tenYearSignal">—</strong></div></div>
           </div></article>
 
           <article class="card technical-card"><div class="card-inner">
             <div class="card-head"><div><div class="mini-label">Technicals</div><h2 id="technicalTitle" style="margin-top:5px">Bitcoin / USD</h2></div><span class="eyebrow">4H</span></div>
-            <div class="technical-row"><div><span>Relative strength index</span><div class="meter"><i id="rsiMeter"></i></div></div><b id="rsiValue">61.4</b></div>
-            <div class="technical-row"><span>Bollinger position</span><b id="bbValue" class="pos">Upper 68%</b></div>
-            <div class="technical-row"><span>Momentum regime</span><b id="momentumValue">Bullish</b></div>
+            <div class="technical-row"><div><span>Relative strength index</span><div class="meter"><i id="rsiMeter" style="width:0"></i></div></div><b id="rsiValue">—</b></div>
+            <div class="technical-row"><span>Bollinger position</span><b id="bbValue">Collecting live samples</b></div>
+            <div class="technical-row"><span>Momentum regime</span><b id="momentumValue">Awaiting history</b></div>
           </div></article>
         </div>
       </section>
@@ -464,7 +470,7 @@
           <div class="universe-meta"><span id="feedResultCount">Discovering feeds…</span><span>Visible prices update in one verified batch</span></div>
           <div style="overflow-x:auto">
             <table class="asset-table">
-              <thead><tr><th>Feed</th><th>Class</th><th>Price</th><th>Confidence</th><th>Updated</th></tr></thead>
+              <thead><tr><th>Feed</th><th>Class</th><th>Price</th><th>Confidence</th><th>Updated</th><th>Watch</th></tr></thead>
               <tbody id="universeRows"><tr><td colspan="5" class="loading-row">Opening the Pyth universe…</td></tr></tbody>
             </table>
           </div>
@@ -481,7 +487,7 @@
           <div class="account-grid">
             <div class="account-state" id="accountState"></div>
             <div>
-              <div class="card-head" style="margin-bottom:10px"><div><strong style="font-size:12px">Connected wallets</strong><div class="feed">Addresses only. Pablo never sees private keys.</div></div><button class="tiny-btn" id="addWalletBtn">+ Wallet</button></div>
+              <div class="card-head" style="margin-bottom:10px"><div><strong style="font-size:12px">Connected wallets</strong><div class="feed">Addresses only. Pablo never sees private keys.</div></div><div class="table-tools"><button class="tiny-btn" id="refreshWalletsBtn">↻ Sync</button><button class="tiny-btn" id="addWalletBtn">+ Wallet</button></div></div>
               <div class="wallet-list" id="walletList"></div>
             </div>
           </div>
